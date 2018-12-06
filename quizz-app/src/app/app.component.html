@@ -1,0 +1,69 @@
+<h1>{{ title }}</h1>
+
+<section *ngIf="!isQuizzRunning">
+  <select [(ngModel)]="category">
+    <option value="0">Choisir une catégorie</option>
+    <option [value]="cat.id"
+      *ngFor="let cat of categories">{{cat.name}}</option>
+  </select>
+
+  <select [(ngModel)]="difficulty">
+    <option value="0">Choisir un niveau</option>
+    <option value="1">Facile</option>
+    <option value="2">Intermédiaire</option>
+    <option value="3">Difficile</option>
+  </select>
+
+  <button (click)="runQuizz()">Démarrer Quizz</button>
+</section>
+
+<span
+  class="text-danger"
+  *ngIf="noResult">Aucune question correspondant aux critères</span>
+
+
+<!-- template de la question -->
+<div *ngIf="isQuizzRunning">
+  <div>Question {{questionIndex + 1}} / {{ questions.length }}</div>
+  <div>
+    Score: {{score}} / {{ questions.length }}
+    ({{ score / questions.length * 100 }} % de réussite)
+  </div>
+  <h2>{{questions[questionIndex].label}}</h2>
+  <section class="feedback" [ngStyle]="{'color':feedbackColor}">
+    <span>{{feedback}}</span>
+    <span *ngIf="
+      isServerResponseReceived &&
+      questionIndex === (questions.length - 1)">
+      . C'était la dernière question, snif, snif...
+    </span>
+  </section>
+  <div>
+    <div *ngFor="let answer of questions[questionIndex].answers">
+      <input
+      [disabled]="isClientChoiceSent"
+      (click)="checkAnswer(questions[questionIndex].id, answer.id)"
+      type="checkbox">
+      <span [ngClass]="{'correct':isCorrect(answer.id)}">{{answer.label}}</span>
+    </div>
+  </div>
+  <footer>
+    <button
+      *ngIf="!isServerResponseReceived"
+      [disabled]="clientChoice.answers.length === 0 || isClientChoiceSent"
+      (click)="validQuestion()">Valider</button>
+    <button
+      (click)="nextQuestion()"
+      *ngIf="isServerResponseReceived && questionIndex !== (questions.length - 1)">Question suivante</button>
+
+    <button
+      *ngIf="isServerResponseReceived && questionIndex === (questions.length - 1)"
+      (click)="restart()">Recommencer</button>
+  </footer>
+</div>
+
+
+
+
+
+<!-- -->

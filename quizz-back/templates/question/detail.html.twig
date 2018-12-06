@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+  <h2>{{question.label}}</h2>
+
+  <ul>
+    {% for answer in question.answers %}
+    <li>
+    {{answer.label}}
+    {% if answer.correct %}
+    (bonne réponse)
+    {% endif %}
+    </li>
+    {% endfor %}
+  </ul>
+
+
+  <div class="">
+    <h4>Ajout d'une réponse</h4>
+    {{form_start(form)}}
+    {{form_end(form)}}
+  </div>
+
+{% endblock %}

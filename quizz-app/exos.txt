@@ -1,0 +1,10 @@
+*** Exo ***
+Masquer les filtres + bouton Démarrer
+le temps des réponses au quizz
+
+Lorsque la dernière question est traitée:
+  - Afficher un message de fin
+  - Afficher un bouton permettant de revenir
+  à l'étape initiale
+
+Afficher le score sous forme d'un pourcentage de réussite
